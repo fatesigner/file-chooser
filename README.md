@@ -2,14 +2,20 @@
 
 [![npm][npm-image]][npm-url]
 [![build][travis-image]][travis-url]
+[![codecov][codecov-image]][codecov-url]
 [![download][download-image]][download-url]
+[![commitizen][commitizen-image]][commitizen-url]
 
 [npm-image]: https://img.shields.io/npm/v/@fatesigner/file-chooser.svg?color=red
 [npm-url]: https://npmjs.com/package/@fatesigner/file-chooser
 [travis-image]: https://travis-ci.com/fatesigner/file-chooser.svg?token=i21P7stb8bZPNjZakvsi&branch=master&color=success
 [travis-url]: https://travis-ci.com/fatesigner/file-chooser
+[codecov-image]: https://codecov.io/gh/fatesigner/file-chooser/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/fatesigner/file-chooser
 [download-image]: https://img.shields.io/npm/dw/@fatesigner/file-chooser.svg?color=green
 [download-url]: https://npmjs.com/package/@fatesigner/file-chooser
+[commitizen-image]: https://img.shields.io/badge/commitizen-friendly-green.svg
+[commitizen-url]: http://commitizen.github.io/cz-cli/
 
 web 文件选择器的函数式封装.
 
@@ -84,7 +90,7 @@ chooser.destroy();
 ```
 ```ts
 import { Vue } from 'vue';
-import { GetImageSrc } from '@fatesigner/utils/document';
+import { GetImageSrc } from '@fatesigner/file-chooser/document';
 import { FileChooserDirectiveForVue } from '@fatesigner/file-chooser/directives/file-chooser.directive';
 
 Vue.use(FileChooserDirectiveForVue);
