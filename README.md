@@ -36,25 +36,22 @@ npm i -S @fatesigner/file-chooser
 ## 使用
 #### startup.ts
 ```ts
-import { RegisterFileChooser } from '@fatesigner/file-chooser';
+import { fileChooserConfigure } from '@fatesigner/file-chooser';
 
 // 预先配置 file-chooser 默认选项（全局）
-RegisterFileChooser({
-  // 指定使用 H5 版本
-  core: 'H5',
-  options: {
-    // 指定文件类型限制
-    fileTypeLimits: ['jpg', 'png']
-  }
+fileChooserConfigure({
+  // 指定文件类型限制
+  fileTypeLimits: ['jpg', 'png'],
+  ...
 });
 ```
 #### main.ts
 ```ts
-import { FileChooserService } from '@fatesigner/file-chooser';
+import { openFileChooser, createFileChooser } from '@fatesigner/file-chooser';
 import { IFileChooserChangeResponse } from '@fatesigner/file-chooser/interfaces';
 
 // 直接打开
-FileChooserService.openFileChooser({
+openFileChooser({
   accept: '.jpg,.png'
 }).then((res) => {
   // show selected files
@@ -64,7 +61,7 @@ FileChooserService.openFileChooser({
 });
 
 // 设置页面上指定的一个元素，点击后打开
-let chooser = await FileChooserService.createFileChooser(
+let chooser = await createFileChooser(
   document.querySelector('#btnChooseFile'), {
   accept: '.jpg,.png'
 }, (res: IFileChooserChangeResponse) => {
@@ -94,9 +91,9 @@ chooser.destroy();
 ```ts
 import { Vue } from 'vue';
 import { GetImageSrc } from '@fatesigner/file-chooser/document';
-import { FileChooserDirectiveForVue } from '@fatesigner/file-chooser/directives/file-chooser.directive';
+import { fileChooserDirective } from '@fatesigner/file-chooser';
 
-Vue.use(FileChooserDirectiveForVue);
+Vue.use(fileChooserDirective);
 
 export default {
   data() {
@@ -143,7 +140,7 @@ export default {
 | --- | --- |
 | targetEl | ElementRef |
 | options | [IFileChooserOptions](#IFileChooserOptions) |
-| onSelected | 文件选择成功后触发，返回 [IFileChooserChangeResponse](#IFileChooserChangeResponse) |
+| onChanged | 文件选择成功后触发，返回 [IFileChooserChangeResponse](#IFileChooserChangeResponse) |
 | onFailed | 文件类型、尺寸、数量不符后触发，返回 Error |
 
 ### IFileChooserOptions

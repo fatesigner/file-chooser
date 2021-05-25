@@ -1,10 +1,8 @@
 /**
- * interfaces
+ * types
  */
 
-import { ICompressImgOptions } from '@fatesigner/img-compressor/interfaces';
-
-export type IFileChooserPlatforms = 'H5' | 'wechat';
+import { ICompressImgOptions } from '@fatesigner/img-compressor/types';
 
 export type IFileType = 'png' | 'jpeg' | 'jpg' | 'gif' | 'pdf';
 
@@ -34,11 +32,6 @@ export interface IFileChooser {
   destroy: () => void;
 }
 
-export interface IFileChooserService {
-  openFileChooser: IOpenFileChooser;
-  createFileChooser: ICreateFileChooser;
-}
-
 export type IOpenFileChooser = (
   this: IFileChooser,
   options?: IFileChooserOptions
@@ -47,11 +40,6 @@ export type IOpenFileChooser = (
 export type ICreateFileChooser = (
   targetEl: HTMLElement,
   options?: IFileChooserOptions,
-  onSelected?: (res: IFileChooserChangeResponse) => void,
+  onChanged?: (res: IFileChooserChangeResponse) => void,
   onFailed?: (error: Error) => void
 ) => Promise<IFileChooser>;
-
-export interface IFileChooserConfig {
-  core: IFileChooserPlatforms;
-  options?: IFileChooserOptions;
-}

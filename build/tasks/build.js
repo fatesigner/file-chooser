@@ -9,34 +9,36 @@ const Merge = require('merge2');
 const Ts = require('gulp-typescript');
 
 Gulp.task('build', async function () {
-  const ENV = require('../env')();
+  const env = require('../env')();
 
   // build esm
-  const TsProject = Ts.createProject(Path.join(ENV.rootPath, 'tsconfig.json'), {
-    declaration: true,
-    declarationFiles: true
+  const TsProject = Ts.createProject(Path.join(env.rootPath, 'tsconfig.json'), {
+    declaration: true
   });
-  const tsResult = await Gulp.src([
-    Path.join(ENV.srcPath, '**/*.ts'),
-    '!' + Path.join(ENV.srcPath, 'interfaces.ts'),
-    '!' + Path.join(ENV.srcPath, '**/*.d.ts'),
-    '!' + Path.join(ENV.srcPath, '**/*.spec.ts')
-  ], {
-    allowEmpty: true
-  }).pipe(TsProject());
-  Merge([tsResult.dts.pipe(Gulp.dest(ENV.outputPath)), tsResult.js.pipe(Gulp.dest(ENV.outputPath))]);
+  const tsResult = await Gulp.src(
+    [
+      Path.join(env.srcPath, '**/*.ts'),
+      '!' + Path.join(env.srcPath, 'types.ts'),
+      '!' + Path.join(env.srcPath, '**/*.d.ts'),
+      '!' + Path.join(env.srcPath, '**/*.spec.ts')
+    ],
+    {
+      allowEmpty: true
+    }
+  ).pipe(TsProject());
+  Merge([tsResult.dts.pipe(Gulp.dest(env.outputPath)), tsResult.js.pipe(Gulp.dest(env.outputPath))]);
 
   // copy other files to output
-  await Gulp.src([Path.join(ENV.srcPath, '**/*'), '!' + Path.join(ENV.srcPath, '**/*.ts')], {
-    base: ENV.srcPath
-  }).pipe(Gulp.dest(ENV.outputPath));
+  await Gulp.src([Path.join(env.srcPath, '**/*'), '!' + Path.join(env.srcPath, '**/*.ts')], {
+    base: env.srcPath
+  }).pipe(Gulp.dest(env.outputPath));
 
-  // copy interfaces.ts
-  await Gulp.src([Path.join(ENV.srcPath, 'interfaces.ts')], {
+  // copy type.ts
+  await Gulp.src([Path.join(env.srcPath, 'types.ts')], {
     allowEmpty: true,
-    base: ENV.srcPath
-  }).pipe(Gulp.dest(ENV.outputPath));
+    base: env.srcPath
+  }).pipe(Gulp.dest(env.outputPath));
 
   // copy npm publish files to output
-  await Gulp.src(['package.json', 'README.md'].map((x) => Path.join(ENV.rootPath, x))).pipe(Gulp.dest(ENV.outputPath));
+  await Gulp.src(['package.json', 'README.md'].map((x) => Path.join(env.rootPath, x))).pipe(Gulp.dest(env.outputPath));
 });
