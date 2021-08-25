@@ -1,3 +1,15 @@
+# [3.0.0-beta.1](https://github.com/fatesigner/file-chooser/compare/v2.0.0...v3.0.0-beta.1) (2021-08-25)
+
+
+### Features
+
+* 更新 openFileChooser ([f6d63fd](https://github.com/fatesigner/file-chooser/commit/f6d63fd12d14950259bad67029745fcef6d07c3f))
+
+
+### BREAKING CHANGES
+
+* 更新 openFileChooser 函数，由原来的 Promise 更改为通过传入的 onChanged、onFailed 参数来获取选择的文件
+
 # [3.0.0-alpha.1](https://github.com/fatesigner/file-chooser/compare/v2.0.0...v3.0.0-alpha.1) (2021-08-25)
 
 
