@@ -71,9 +71,9 @@ export function resetInputFile(file: HTMLInputElement): void {
 export function dispatchClick(el) {
   el.dispatchEvent(new MouseEvent('click'));
 
-  if (el && document.createEvent) {
-    // const evt = document.createEvent('MouseEvents');
-    // evt.initEvent('click', true, false);
-    // el.dispatchEvent(evt);
-  }
+  /*if (el && document.createEvent) {
+    const evt = document.createEvent('MouseEvents');
+    evt.initEvent('click', true, false);
+    el.dispatchEvent(evt);
+  }*/
 }

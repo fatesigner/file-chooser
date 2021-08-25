@@ -8,15 +8,9 @@ import { isNullOrUndefined } from '@fatesigner/utils/type-check';
 import { addEventListener, createElement, removeElement } from '@fatesigner/utils/document';
 
 import { dispatchClick, resetInputFile } from '../utils';
-import { compressImage, validateFile } from '../file-chooser';
-import { IFileChooser, IFileChooserChangeResponse, IFileChooserOptions } from '../types';
+import { ICreateFileChooser, IFileChooserChangeResponse, IFileChooserOptions, IOpenFileChooser, compressImage, validateFile } from '../core';
 
-function createInputEl(
-  targetEl,
-  options: IFileChooserOptions,
-  onChanged?: (res: IFileChooserChangeResponse) => void,
-  onFailed?: (error: Error) => void
-) {
+function createInputEl(targetEl, options: IFileChooserOptions, onChanged?: (res: IFileChooserChangeResponse) => void, onFailed?: (error: Error) => void) {
   const inputEl = createElement(
     `
     <input id="${options.id}"
@@ -68,30 +62,32 @@ function createInputEl(
   return inputEl;
 }
 
-export async function openFileChooser(options?: IFileChooserOptions) {
-  return new Promise<IFileChooserChangeResponse>((resolve, reject) => {
-    const options_: IFileChooserOptions = Object.assign({}, options, {
-      id: getGUID(10),
-      clickable: false
-    });
-
-    let inputEl: any = document.body.querySelector(':scope > .file-chooser-input-hidden');
-
-    if (!inputEl) {
-      inputEl = createInputEl(null, options_, resolve, reject);
-      document.body.appendChild(inputEl);
-    }
-
-    dispatchClick(inputEl);
+export const openFileChooser: IOpenFileChooser = async function (
+  options?: IFileChooserOptions,
+  onChanged?: (res: IFileChooserChangeResponse) => void,
+  onFailed?: (error: Error) => void
+) {
+  const options_: IFileChooserOptions = Object.assign({}, options, {
+    id: getGUID(10),
+    clickable: false
   });
-}
 
-export async function createFileChooser(
+  let inputEl: any = document.body.querySelector(':scope > .file-chooser-input-hidden');
+
+  if (!inputEl) {
+    inputEl = createInputEl(null, options_, onChanged, onFailed);
+    document.body.appendChild(inputEl);
+  }
+
+  dispatchClick(inputEl);
+};
+
+export const createFileChooser: ICreateFileChooser = async function createFileChooser(
   targetEl: HTMLElement,
   options?: IFileChooserOptions,
   onChanged?: (res: IFileChooserChangeResponse) => void,
   onFailed?: (error: Error) => void
-): Promise<IFileChooser> {
+) {
   const options_: IFileChooserOptions = Object.assign({}, options, {
     id: getGUID(10)
   });
@@ -111,6 +107,7 @@ export async function createFileChooser(
     e.stopPropagation();
     trigger();
   };
+
   if (options_.clickable) {
     targetEl.addEventListener('click', handleClick);
   }
@@ -124,4 +121,4 @@ export async function createFileChooser(
     trigger,
     destroy
   };
-}
+};

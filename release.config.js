@@ -14,7 +14,7 @@ const releaseRules = [
 
 const releaseRulesArray = releaseRules.map((x) => x.type);
 
-// 对于没有定义在releaseRules里的type 默认设置其发布版本为 patch
+// 对于没有定义在 releaseRules 里的 type, 默认设置其发布版本为 patch
 czConfig.types.forEach((x) => {
   if (releaseRulesArray.indexOf(x.value) < 0) {
     releaseRules.push({
@@ -28,14 +28,7 @@ module.exports = {
   debug: true,
   dryRun: false,
   preset: 'angular',
-  branches: [
-    '+([0-9])?(.{+([0-9]),x}).x',
-    'master',
-    'next',
-    'next-major',
-    { name: 'beta', prerelease: true },
-    { name: 'alpha', prerelease: true }
-  ],
+  branches: ['+([0-9])?(.{+([0-9]),x}).x', 'master', 'next', 'next-major', { name: 'beta', prerelease: true }, { name: 'alpha', prerelease: true }],
   plugins: [
     [
       '@semantic-release/commit-analyzer',
@@ -64,17 +57,17 @@ module.exports = {
       }
     ],
     [
+      '@semantic-release/github',
+      {
+        // assets: 'dist/!*.tgz'
+      }
+    ],
+    [
       '@semantic-release/npm',
       {
         npmPublish: true,
         pkgRoot: 'dist',
         allowSameVersion: true
-      }
-    ],
-    [
-      '@semantic-release/github',
-      {
-        // assets: 'dist/!*.tgz'
       }
     ]
   ]
